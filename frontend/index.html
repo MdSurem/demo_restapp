@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .menu {
+            list-style-type: none;
+            padding: 0;
+        }
+        .menu-item {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            width: 300px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .order-btn {
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Our Restaurant</h1>
+        <h3>Order your favorite dishes</h3>
+        <ul class="menu" id="menu">
+            <!-- Menu items will be displayed here dynamically -->
+        </ul>
+    </div>
+
+    <script>
+        // Sample menu data
+        const menu = [
+            { id: 1, name: 'Pasta', price: 12 },
+            { id: 2, name: 'Pizza', price: 10 },
+            { id: 3, name: 'Burger', price: 8 }
+        ];
+
+        // Function to display menu items
+        function displayMenu() {
+            const menuElement = document.getElementById('menu');
+            menu.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'menu-item';
+                li.innerHTML = `${item.name} - $${item.price} <button class="order-btn" onclick="orderFood(${item.id})">Order</button>`;
+                menuElement.appendChild(li);
+            });
+        }
+
+        // Function to handle food ordering
+        function orderFood(itemId) {
+            fetch(`/order/${itemId}`, {
+                method: 'POST',
+            })
+            .then(response => response.json())
+            .then(data => alert('Order placed successfully!'))
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Initialize menu on page load
+        window.onload = displayMenu;
+    </script>
+</body>
+</html>
+
